@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เว็บรวมลิงก์ของฉัน</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS สำหรับจัดหน้าตา */
+        body {
+            font-family: 'Kanit', sans-serif; /* ใช้ฟอนต์ Kanit */
+            background-color: #e0f2f7; /* สีพื้นหลังอ่อนๆ */
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box; /* ทำให้ padding ไม่เพิ่มขนาดรวมของ body */
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* เงาที่ดูนุ่มนวลขึ้น */
+            width: 100%;
+            max-width: 700px; /* เพิ่มความกว้างสูงสุดเล็กน้อย */
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #263238; /* สีเข้มขึ้น */
+            font-size: 2.5em; /* ขนาดใหญ่ขึ้น */
+            margin-bottom: 30px;
+            font-weight: 600; /* หนาขึ้นเล็กน้อย */
+        }
+
+        .link-item {
+            background-color: #f0f8fa; /* สีพื้นหลังของการ์ดลิงก์ */
+            margin-bottom: 15px;
+            padding: 20px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* เงาเล็กน้อย */
+            display: flex;
+            flex-direction: column; /* จัดให้เนื้อหาเรียงลงมา */
+            align-items: flex-start;
+            transition: transform 0.2s ease, box-shadow 0.2s ease; /* เพิ่ม animation ตอน hover */
+            cursor: pointer; /* แสดงว่าเป็น clickable */
+        }
+
+        .link-item:hover {
+            transform: translateY(-3px); /* เลื่อนขึ้นเล็กน้อยตอน hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* เงาเข้มขึ้นตอน hover */
+        }
+
+        .link-item a {
+            text-decoration: none;
+            color: #007bb6; /* สีฟ้าที่สดใสขึ้น */
+            font-weight: 600;
+            font-size: 1.2em; /* ขนาดใหญ่ขึ้น */
+            margin-bottom: 5px; /* เว้นระยะห่างจาก description */
+            display: block; /* ทำให้ลิงก์อยู่คนละบรรทัดกับ description */
+        }
+
+        .link-item .description {
+            font-size: 0.95em;
+            color: #555555;
+            line-height: 1.4;
+        }
+
+        .link-item .click-count {
+            font-size: 0.8em;
+            color: #888888;
+            margin-top: 10px;
+            align-self: flex-end; /* จัดให้อยู่มุมขวาล่าง */
+        }
+
+        /* ส่วนของฟอร์มเพิ่มลิงก์ */
+        .add-link-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px dashed #cccccc; /* เส้นแบ่งสวยๆ */
+            width: 100%;
+        }
+
+        .add-link-section h2 {
+            text-align: center;
+            color: #263238;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .add-link-form input[type="text"] {
+            width: calc(100% - 24px); /* หัก padding */
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #c0d9e0; /* สีขอบที่เข้ากับธีม */
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: 'Kanit', sans-serif;
+            box-sizing: border-box; /* ทำให้ padding ไม่เพิ่มขนาดรวมของ input */
+        }
+
+        .add-link-form button {
+            background-color: #28a745; /* สีเขียวสำหรับปุ่มเพิ่ม */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            width: 100%;
+            transition: background-color 0.2s ease;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .add-link-form button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>เกมของนายเก้า</h1>
+        <div id="links-container">
+            </div>
+
+        <div class="add-link-section">
+            <h2>เพิ่มลิงก์ใหม่</h2>
+            <div class="add-link-form">
+                <input type="text" id="link-title" placeholder="ชื่อลิงก์ เช่น เกมไพ่หน้าตาย">
+                <input type="text" id="link-url" placeholder="URL ของลิงก์ เช่น https://game-crad-1.onrender.com/" value="https://">
+                <input type="text" id="link-desc" placeholder="คำอธิบาย (ไม่บังคับ)">
+                <button id="add-link-btn">เพิ่มลิงก์</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript สำหรับจัดการข้อมูลและแสดงผล
+        // *** ข้อควรระวัง: ข้อมูลใน Array นี้จะหายไปเมื่อ Refresh หน้า ***
+        // *** หากต้องการบันทึกถาวร ต้องใช้ Backend/Database (เช่น Firebase) ***
+        let links = [
+            { id: 1, title: 'Werewolf Online Game', url: 'https://werewolf-online-game.onrender.com/', description: 'เกม Werewolf ออนไลน์ที่คุณสามารถเล่นได้', clicks: 0 },
+            { id: 2, title: 'เกมไพ่หน้าตาย (บน Render)', url: 'https://game-crad-1.onrender.com/', description: 'ลิงก์ไปยังเกมไพ่หน้าตายที่ Deploy บน Render', clicks: 0 }
+        ];
+
+        const linksContainer = document.getElementById('links-container');
+        const addLinkBtn = document.getElementById('add-link-btn');
+        const linkTitleInput = document.getElementById('link-title');
+        const linkUrlInput = document.getElementById('link-url');
+        const linkDescInput = document.getElementById('link-desc');
+
+        function renderLinks() {
+            linksContainer.innerHTML = ''; // ล้างเนื้อหาเก่าก่อนแสดงใหม่
+            links.forEach(link => {
+                const linkItem = document.createElement('div');
+                linkItem.classList.add('link-item');
+                
+                // ใช้ Event Listener กับ linkItem โดยตรงเพื่อเปิดลิงก์
+                linkItem.addEventListener('click', () => {
+                    link.clicks++;
+                    renderLinks(); // อัปเดต UI ทันที
+                    window.open(link.url, '_blank'); // เปิดลิงก์ในแท็บใหม่
+                });
+
+                linkItem.innerHTML = `
+                    <div>
+                        <a href="${link.url}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">${link.title}</a>
+                        ${link.description ? `<div class="description">${link.description}</div>` : ''}
+                    </div>
+                    <span class="click-count">คลิก: ${link.clicks}</span>
+                `;
+                linksContainer.appendChild(linkItem);
+            });
+        }
+
+        // ฟังก์ชันสำหรับเพิ่มลิงก์ใหม่
+        addLinkBtn.addEventListener('click', () => {
+            const title = linkTitleInput.value.trim();
+            const url = linkUrlInput.value.trim();
+            const description = linkDescInput.value.trim();
+
+            if (title && url) {
+                const newLink = {
+                    id: links.length ? Math.max(...links.map(l => l.id)) + 1 : 1, // สร้าง ID ใหม่
+                    title: title,
+                    url: url.startsWith('http://') || url.startsWith('https://') ? url : 'https://' + url, // ตรวจสอบ http/https
+                    description: description,
+                    clicks: 0
+                };
+                links.push(newLink);
+                renderLinks();
+                // ล้างฟอร์ม
+                linkTitleInput.value = '';
+                linkUrlInput.value = 'https://';
+                linkDescInput.value = '';
+            } else {
+                alert('กรุณากรอกชื่อและ URL ของลิงก์ให้ครบถ้วน');
+            }
+        });
+
+        // เรียกฟังก์ชันเพื่อแสดงลิงก์เมื่อหน้าเว็บโหลดเสร็จ
+        document.addEventListener('DOMContentLoaded', renderLinks);
+    </script>
+</body>
+</html>
